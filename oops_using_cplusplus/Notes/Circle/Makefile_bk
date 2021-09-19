@@ -1,0 +1,25 @@
+#Target_name : Dependencies
+#<TAB>Command
+
+#Dependency_name : dependencies
+#<TAB>Command
+
+SRC = circle.cpp\
+test_circle.cpp
+
+#CXX =
+#CC = clang
+#AS = 
+#LD = 
+
+CXXFLAGS = -Iinc
+LDFLAGS = -lgtest -lgtest_main -lpthread
+
+CIRCLE.exe : $(SRC)
+	g++ $(SRC) $(CXXFLAGS) $(LDFLAGS) -o CIRCLE.exe
+
+run : CIRCLE.exe
+	CIRCLE.exe
+
+clean: 
+	rm CIRCLE.exe
