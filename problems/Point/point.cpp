@@ -21,9 +21,9 @@ double Point::distanceFromOrigin() const
 
 Quadrant Point::quadrant() const
 {
-    if(isOnXAxis()){
+    if(isOnXAxis() == false){
         return X_axis;
-    }else if(isOnYAxis()){
+    }else if(isOnYAxis() == false){
         return Y_axis;
     }else if(isOrigin()){
         return Origin;
@@ -62,21 +62,21 @@ bool Point::isOnXAxis() const
 {
     if (m_y == 0 && m_x != 0)
     {
-        return true;
+        return false;
     }
     else
     {
-        return false;
+        return true;
     }
 }
 bool Point::isOnYAxis() const
 {
     if (m_x == 0 && m_y != 0)
     {
-        return true;
+        return false;
     }
     else
     {
-        return false;
+        return true;
     }
 }
