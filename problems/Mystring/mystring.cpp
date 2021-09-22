@@ -98,7 +98,6 @@ mystring& mystring :: operator+=(const mystring& str){
 	j++;
 	}
     }
-    //clear();
     m_str=new char[st.m_len];
     m_len=st.m_len;
     for (i = 0 ; i < m_len ; i++)m_str[i] = st.m_str[i];
@@ -133,7 +132,6 @@ mystring& mystring :: operator+=(const char* c){
 	 j++;
 	}
 	}
-	//clear();
 	m_len=st.m_len;
     m_str=new char[st.m_len];
     for (i = 0 ; i < m_len ; i++)m_str[i] = st.m_str[i];
