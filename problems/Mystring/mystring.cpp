@@ -76,12 +76,67 @@ bool mystring :: operator>(const mystring& str){
 }
 
 mystring& mystring :: operator+=(const mystring& str){
-    *this = *this + str;
+    /**this = *this + str;
+    return *this;*/
+    mystring st;
+    unsigned i;
+    if (m_len == 0 && str.m_len == 0)
+    {
+    st.m_len = 0;
+    st.m_str = NULL;
+    }
+    else
+    {
+    st.m_len = m_len + str.m_len;
+    st.m_str = new char[st.m_len];
+    for (i = 0 ; i < m_len ; i++)st.m_str[i] = m_str[i];
+    unsigned j = 0;
+    while (j < str.m_len)
+	{
+	st.m_str[i] = str.m_str[j];
+	i++;
+	j++;
+	}
+    }
+    //clear();
+    m_str=new char[st.m_len];
+    m_len=st.m_len;
+    for (i = 0 ; i < m_len ; i++)m_str[i] = st.m_str[i];
     return *this;
 }
 
 mystring& mystring :: operator+=(const char* c){
-    *this = *this + mystring(c);
+    /**this = *this + mystring(c);
+    return *this;*/
+    mystring st;
+	unsigned len=0;
+	unsigned i;
+	while(c[len]!='\0')
+	{
+	len++;
+	}
+	if (m_len == 0 && len == 0)
+	{
+	st.m_len = 0;
+	st.m_str = NULL;
+	}
+	else
+	{
+	st.m_len = m_len + len;
+    st.m_str = new char[st.m_len];
+    for (i = 0 ; i < m_len ; i++)st.m_str[i] = m_str[i];
+    unsigned j = 0;
+    while (j < len)
+	{
+	 st.m_str[i] = c[j];
+	 i++;
+	 j++;
+	}
+	}
+	//clear();
+	m_len=st.m_len;
+    m_str=new char[st.m_len];
+    for (i = 0 ; i < m_len ; i++)m_str[i] = st.m_str[i];
     return *this;
 }
 
