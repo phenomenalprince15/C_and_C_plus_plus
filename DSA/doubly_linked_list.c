@@ -1,13 +1,12 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-struct node
-{
+struct node{
     int data;
-    struct node *next;
+    struct node* next;
+    struct node* prev;
 };
 
-//struct node *head;
 unsigned int len = 0;
 
 void print_linked_list(struct node *head)
@@ -23,41 +22,43 @@ void print_linked_list(struct node *head)
     printf("Length of linked list : %d\n", len);
 }
 
-void insert_at_beginning(struct node **head, int data)
+void insert_at_beg(struct node** head_ref, int data)
 {
-    struct node *new_node = malloc(sizeof(struct node));
+    struct node* new_node = malloc(sizeof(struct node));
     new_node->data = data;
-    new_node->next = *head;
-    *head = new_node;
+    new_node->next = *head_ref;
+    new_node->prev = NULL;
+    if(*head_ref != NULL){
+        (*head_ref)->prev = new_node;
+    }
+    *head_ref = new_node;
     len++;
 }
 
-void insert_at_end(struct node **head_ref, int data)
+void insert_at_end(struct node** head_ref, int data)
 {
-    struct node *new_node = malloc(sizeof(struct node));
+    struct node* new_node = malloc(sizeof(struct node));
     new_node->data = data;
     new_node->next = NULL;
-
     if (*head_ref == NULL)
     {
+        new_node->prev = NULL;
         *head_ref = new_node;
         len++;
         return;
     }
-
-    struct node *ptr;
+    struct node* ptr;
     ptr = *head_ref;
-
-    while (ptr->next != NULL)
+    while(ptr->next != NULL)
     {
         ptr = ptr->next;
     }
     ptr->next = new_node;
+    new_node->prev = ptr;
     len++;
-    return;
 }
 
-void insert_at_index(struct node **head_ref, int idx, int data)
+void insert_at_index(struct node** head_ref, int idx, int data)
 {
     if (idx < 0)
     {
@@ -68,7 +69,7 @@ void insert_at_index(struct node **head_ref, int idx, int data)
     new_node->data = data;
     if (*head_ref == NULL || idx == 0)
     {
-        insert_at_beginning(head_ref, data);
+        insert_at_beg(head_ref, data);
         return;
     }
     if (idx == len)
@@ -76,6 +77,7 @@ void insert_at_index(struct node **head_ref, int idx, int data)
         insert_at_end(head_ref, data);
         return;
     }
+
     struct node *ptr = *head_ref;
     while (ptr->next != NULL && idx > 0)
     {
@@ -83,6 +85,10 @@ void insert_at_index(struct node **head_ref, int idx, int data)
         {
             new_node->next = ptr->next;
             ptr->next = new_node;
+            new_node->prev = ptr;
+            if(new_node->next != NULL){
+                new_node->next->prev = new_node;
+            }
             len++;
         }
         ptr = ptr->next;
@@ -99,9 +105,23 @@ void delete_at_index(struct node **head_ref, int idx)
     if (idx == 0)
     {
         *head_ref = (*head_ref)->next;
+        (*head_ref)->prev = NULL;
         len--;
         return;
     }
+
+    /*if (idx == len-1){
+        struct node* ptr = malloc(sizeof(struct node));
+        while(ptr->next != NULL){
+            ptr = ptr->next;
+        }
+        struct node* temp = ptr;
+        ptr = ptr->prev;
+        ptr->next = NULL;
+        free(temp);
+        len--;
+        return;
+    }*/
 
     int i = 1;
     struct node *ptr = *head_ref;
@@ -117,6 +137,7 @@ void delete_at_index(struct node **head_ref, int idx)
             //ptr->prev = ptr;
             ptr->next = ptr->next->next;
             //ptr->next->prev = ptr;
+            ptr->next->prev = ptr;
             len--;
             return;
         }
@@ -167,9 +188,9 @@ void sort_list(struct node** head_ref)
 int main()
 {
     struct node *head = NULL;
-    insert_at_beginning(&head, 10);
-    insert_at_beginning(&head, 20);
-    insert_at_beginning(&head, 30);
+    insert_at_beg(&head, 10);
+    insert_at_beg(&head, 20);
+    insert_at_beg(&head, 30);
     print_linked_list(head);
     insert_at_end(&head, 40);
     insert_at_end(&head, 50);
